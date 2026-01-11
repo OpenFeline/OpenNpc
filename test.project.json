@@ -1,0 +1,15 @@
+{
+    "name": "OpenNpc Test Place",
+    "tree": {
+        "$className": "DataModel",
+        "ReplicatedStorage": {
+            "$className": "ReplicatedStorage",
+            "OpenNpc": {
+                "$path": "src",
+                "Packages": {
+                    "$path": "roblox_packages"
+                }
+            }
+        }
+    }
+}

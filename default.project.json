@@ -1,0 +1,9 @@
+{
+  "name": "OpenNpc",
+  "tree": {
+    "$path": "src",
+    "Packages": {
+      "$path": "roblox_packages"
+    }
+  }
+}

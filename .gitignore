@@ -1,0 +1,18 @@
+# Rojo
+/sourcemap.json
+
+# Pesde
+/.pesde
+/roblox_packages
+/luau_packages
+/lune_packages
+
+# Artifacts
+/*.lock
+/*.rbxl
+/*.rbxlx
+/*.rbxm
+/*.rbxmx
+
+# Misc
+.DS_Store
