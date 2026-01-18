@@ -27,3 +27,4 @@ lune = "^0.10.2"
 
 [dependencies]
 crunchyroll = { wally = "ffrostfall/crunchyroll", version = "^0.2.0" }
+signal = { name = "jiwonz/signal", version = "^0.1.0", target = "roblox" }

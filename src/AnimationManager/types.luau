@@ -13,7 +13,7 @@ export type AnimationManager = {
 	LoadAnimation: (
 		self: AnimationManager,
 		options: crunchyroll.AnimationTrack,
-		animation: string | Animation
+		animation: KeyframeSequence
 	) -> AnimationPlayer,
 	GetPlayingTracks: (self: AnimationManager) -> { [string]: AnimationPlayer },
 	Start: (self: AnimationManager) -> (),
