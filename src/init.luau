@@ -17,6 +17,7 @@ local types = require(script.types)
 
 export type OpenNPC = types.CustomNPC
 export type AnimationPlayer = AnimationManager.AnimationPlayer
+export type NPCStates = types.NPCStates
 
 local Npc = {}
 
@@ -46,6 +47,8 @@ function NpcClass.new(npc: Model, rig: crunchyroll.Rig, walkspeed: number)
 	self.MoveToFinished = Signal.new()
 	self.StateChanged = Signal.new()
 
+	self._animationManager:Start()
+
 	return self
 end
 
@@ -56,7 +59,7 @@ end
 
     @within NpcClass
     @param self NpcClass -- The NpcClass object
-    @param newState NPCStates -- New NPC state
+    @param newState "Idle" | "Walking" -- New NPC state
 ]=]
 function Npc.SetState(self: types._CustomNPC, newState: types.NPCStates)
 	self._state = newState
@@ -184,14 +187,22 @@ function Npc._StartWalking(self: types._CustomNPC)
 	if RunService:IsServer() then
 		self._walkingConnection = RunService.Heartbeat:Connect(function(dt)
 			Step(dt)
-			self._animationManager:Update(dt)
 		end)
 	else
 		self._walkingConnection = RunService.RenderStepped:Connect(function(dt)
 			Step(dt)
-			self._animationManager:Update(dt)
 		end)
 	end
+end
+
+--[=[
+	Stops animations & cleans Npc object
+
+	@within NpcClass
+	@param self NpcClass -- The NpcClass object
+]=]
+function NpcClass.Destroy(self: types._CustomNPC)
+	self._animationManager:Stop()
 end
 
 return NpcClass

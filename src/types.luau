@@ -8,16 +8,17 @@ export type NPCStates = "Idle" | "Walking"
 
 export type CustomNPC = {
 	new: (npc: Model, rig: crunchyroll.Rig, walkspeed: number) -> CustomNPC,
-	SetState: (self: _CustomNPC, newState: NPCStates) -> (),
+	SetState: (self: CustomNPC, newState: NPCStates) -> (),
 	LoadAnimation: (
-		self: _CustomNPC,
+		self: CustomNPC,
 		options: AnimationManager.PlayData,
 		animation: KeyframeSequence
 	) -> AnimationTrack,
-	MoveTo: (self: _CustomNPC, pos: Vector3, priority: number | nil) -> (),
-	SetWalkSpeed: (self: _CustomNPC, walkspeed: number) -> (),
+	MoveTo: (self: CustomNPC, pos: Vector3, priority: number | nil) -> (),
+	SetWalkSpeed: (self: CustomNPC, walkspeed: number) -> (),
 	MoveToFinished: Signal.Signal<>,
 	StateChanged: Signal.Signal<NPCStates>,
+	Destroy: (self: CustomNPC) -> (),
 }
 
 export type _CustomNPC = CustomNPC & {
