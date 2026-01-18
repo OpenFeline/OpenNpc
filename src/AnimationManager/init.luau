@@ -8,11 +8,17 @@ export type AnimationManager = types.AnimationManager
 export type AnimationPlayer = types.AnimationPlayer
 
 --[=[
-    @interface PlayData
-    @within AnimationManager
-    @field looped boolean
+	@interface PlayData
+	@within AnimationManager
+	
+	@field priority number
+	@field weight number
+	@field stop_fade_time number
+	@field start_fade_time number
+	@field alpha number
+	@field looped boolean
 
-    A config to describe an Animation Track
+	A config to describe an Animation Track
 ]=]
 export type PlayData = types.PlayData
 
@@ -102,7 +108,7 @@ function AnimationManager.LoadAnimation(
 			player._motors[descendant.Name] = descendant
 		end
 	end
-	print(player._motors)
+
 	return player
 end
 
@@ -232,7 +238,6 @@ function AnimationPlayer.UpdateCFrames(self: _AnimationPlayer, rootCF: CFrame)
 			continue
 		end
 
-		print(self._motors[name], name)
 		local corresponding: Motor6D = self._motors[name] -- change this to find motor6d in character ASAP
 		local newCF = rootCF:ToObjectSpace(cf):Inverse() * corresponding.C0
 

@@ -1,5 +1,5 @@
 title = "OpenNpc"  # From Git
-gitRepoUrl = "" # From Git
+gitRepoUrl = "https://github.com/OpenFeline/OpenNpc" # From Git
 
 gitSourceBranch = "master"
 changelog = true
@@ -8,7 +8,7 @@ classOrder = []
 [docusaurus]
 onBrokenLinks = "throw"
 onBrokenMarkdownLinks = "warn"
-favicon = "https://eryn.io/moonwave/img/logo.svg"
+favicon = "favicon.ico"
 
 # From git:
 organizationName = "OpenFeline"
