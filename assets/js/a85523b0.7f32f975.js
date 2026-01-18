@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[345],{7676:a=>{a.exports=JSON.parse('[{"type":"link","href":"/api/AnimationManager","label":"\u200bAnimation\u200bManager"},{"type":"link","href":"/api/AnimationPlayer","label":"\u200bAnimation\u200bPlayer"},{"type":"link","href":"/api/NpcClass","label":"\u200bNpc\u200bClass"}]')}}]);

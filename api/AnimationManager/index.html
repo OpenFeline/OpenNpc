@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">AnimationManager | OpenNpc</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://openfeline.github.io/OpenNpc/api/AnimationManager"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="AnimationManager | OpenNpc"><meta data-rh="true" name="description" content="Produces a animation player &amp; handles animation updating automatically via :Start()/:Stop() methods"><meta data-rh="true" property="og:description" content="Produces a animation player &amp; handles animation updating automatically via :Start()/:Stop() methods"><link data-rh="true" rel="icon" href="/OpenNpc/favicon.ico"><link data-rh="true" rel="canonical" href="https://openfeline.github.io/OpenNpc/api/AnimationManager"><link data-rh="true" rel="alternate" href="https://openfeline.github.io/OpenNpc/api/AnimationManager" hreflang="en"><link data-rh="true" rel="alternate" href="https://openfeline.github.io/OpenNpc/api/AnimationManager" hreflang="x-default"><link rel="stylesheet" href="/OpenNpc/assets/css/styles.7a4bdbad.css">
+<script src="/OpenNpc/assets/js/runtime~main.6f5a98a5.js" defer="defer"></script>
+<script src="/OpenNpc/assets/js/main.7a89125f.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/OpenNpc/"><b class="navbar__title text--truncate">OpenNpc</b></a><a class="navbar__item navbar__link" href="/OpenNpc/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/OpenNpc/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/OpenFeline/OpenNpc" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/OpenNpc/api/AnimationManager">​Animation​Manager</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/OpenNpc/api/AnimationPlayer">​Animation​Player</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/OpenNpc/api/NpcClass">​Npc​Class</a></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Animation</span><span style="display:inline-block">Manager</span></h1><div class="luaClassTags_EipM"></div><div>
+<p>Produces a animation player &#x26; handles animation updating automatically via :Start()/:Stop() methods</p>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="types">Types<a href="#types" class="hash-link" aria-label="Direct link to Types" title="Direct link to Types">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="PlayData"><code style="text-decoration:none">PlayData</code><a href="#PlayData" class="hash-link" aria-label="Direct link to PlayData" title="Direct link to PlayData">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/OpenFeline/OpenNpc/blob/master/src/AnimationManager/init.luau#L23"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="purple_ieR2">interface</code> <code>PlayData<!-- --> <!-- -->{</code><div class="inset_uKQm"><div><code>priority<!-- -->: </code><code class="blue_P4bS">number</code></div><div><code>weight<!-- -->: </code><code class="blue_P4bS">number</code></div><div><code>stop_fade_time<!-- -->: </code><code class="blue_P4bS">number</code></div><div><code>start_fade_time<!-- -->: </code><code class="blue_P4bS">number</code></div><div><code>alpha<!-- -->: </code><code class="blue_P4bS">number</code></div><div><code>looped<!-- -->: </code><code class="blue_P4bS">boolean</code></div></div><code>}</code></div><div>
+<p>A config to describe an Animation Track</p>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/OpenFeline/OpenNpc/blob/master/src/AnimationManager/init.luau#L66"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>AnimationManager<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><div class="inset_uKQm"><div><code>rig<!-- -->: </code><code class="blue_P4bS">Crunchyroll.Rig</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>A rig that has been made and defined using Crunchyroll</p>
+</span></span></div><div><code>character<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Model" target="_blank" rel="noopener noreferrer">Model<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><span class="inlineDescription_G7Er">-- <span>
+<p>The model where animations get applied to</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/OpenNpc/api/AnimationManager">AnimationManager</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>returns the new AnimationManager</p>
+</span></span></div><div>
+<p>Creates a new animation manager to play and stop animations</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="LoadAnimation"><code style="text-decoration:none">LoadAnimation</code><a href="#LoadAnimation" class="hash-link" aria-label="Direct link to LoadAnimation" title="Direct link to LoadAnimation">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/OpenFeline/OpenNpc/blob/master/src/AnimationManager/init.luau#L88"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>AnimationManager<!-- -->:</code><code class="green_DgR4">LoadAnimation</code><code>(</code><div class="inset_uKQm"><div><code>self<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/OpenNpc/api/AnimationManager">AnimationManager</a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The AnimationManager object</p>
+</span></span></div><div><code>options<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/OpenNpc/api/AnimationManager#PlayData">PlayData</a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Crunchyroll's animation options to load</p>
+</span></span></div><div><code>animation<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/KeyframeSequence" target="_blank" rel="noopener noreferrer">KeyframeSequence<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><span class="inlineDescription_G7Er">-- <span>
+<p>A animation id or the actual animation to load</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/OpenNpc/api/AnimationPlayer">AnimationPlayer</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>Returns a new AnimationPlayer</p>
+</span></span></div><div>
+<p>Loads a new animation onto the rig (Isn't played by default)</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetPlayingTracks"><code style="text-decoration:none">GetPlayingTracks</code><a href="#GetPlayingTracks" class="hash-link" aria-label="Direct link to GetPlayingTracks" title="Direct link to GetPlayingTracks">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/OpenFeline/OpenNpc/blob/master/src/AnimationManager/init.luau#L123"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>AnimationManager<!-- -->:</code><code class="green_DgR4">GetPlayingTracks</code><code>(</code><div class="inset_uKQm"><div><code>self<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/OpenNpc/api/AnimationManager">AnimationManager</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>The AnimationManager object</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">PlayingTracks</code><span class="inlineDescription_G7Er">-- <span>
+<p>An array of the current animation players</p>
+</span></span></div><div>
+<p>Returns the current playing tracks on the character</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Update"><code style="text-decoration:none">Update</code><a href="#Update" class="hash-link" aria-label="Direct link to Update" title="Direct link to Update">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/OpenFeline/OpenNpc/blob/master/src/AnimationManager/init.luau#L135"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>AnimationManager<!-- -->:</code><code class="green_DgR4">Update</code><code>(</code><div class="inset_uKQm"><div><code>self<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/OpenNpc/api/AnimationManager">AnimationManager</a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>The AnimationPlayer object</p>
+</span></span></div><div><code>dt<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+<p>Delta Time used to calculate time passed for animation updating</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Updates each animation player that is marked to be updated</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Start"><code style="text-decoration:none">Start</code><a href="#Start" class="hash-link" aria-label="Direct link to Start" title="Direct link to Start">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/OpenFeline/OpenNpc/blob/master/src/AnimationManager/init.luau#L155"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>AnimationManager<!-- -->:</code><code class="green_DgR4">Start</code><code>(</code><div class="inset_uKQm"><div><code>self<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/OpenNpc/api/AnimationManager">AnimationManager</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>The AnimationPlayer object</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Starts the animation manager</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Start"><code style="text-decoration:none">Start</code><a href="#Start" class="hash-link" aria-label="Direct link to Start" title="Direct link to Start">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/OpenFeline/OpenNpc/blob/master/src/AnimationManager/init.luau#L174"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>AnimationManager<!-- -->:</code><code class="green_DgR4">Start</code><code>(</code><div class="inset_uKQm"><div><code>self<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/OpenNpc/api/AnimationManager">AnimationManager</a></code><span class="inlineDescription_G7Er">-- <span>
+<p>The AnimationManager object</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Stops the animation manager</p>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;new&quot;,
+            &quot;desc&quot;: &quot;Creates a new animation manager to play and stop animations&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;rig&quot;,
+                    &quot;desc&quot;: &quot;A rig that has been made and defined using Crunchyroll&quot;,
+                    &quot;lua_type&quot;: &quot;Crunchyroll.Rig&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;character&quot;,
+                    &quot;desc&quot;: &quot;The model where animations get applied to&quot;,
+                    &quot;lua_type&quot;: &quot;Model&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;returns the new AnimationManager&quot;,
+                    &quot;lua_type&quot;: &quot;AnimationManager&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 66,
+                &quot;path&quot;: &quot;src/AnimationManager/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;LoadAnimation&quot;,
+            &quot;desc&quot;: &quot;Loads a new animation onto the rig (Isn&#x27;t played by default)&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;self&quot;,
+                    &quot;desc&quot;: &quot;The AnimationManager object&quot;,
+                    &quot;lua_type&quot;: &quot;AnimationManager&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;options&quot;,
+                    &quot;desc&quot;: &quot;Crunchyroll&#x27;s animation options to load&quot;,
+                    &quot;lua_type&quot;: &quot;PlayData&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;animation&quot;,
+                    &quot;desc&quot;: &quot;A animation id or the actual animation to load&quot;,
+                    &quot;lua_type&quot;: &quot;KeyframeSequence&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Returns a new AnimationPlayer&quot;,
+                    &quot;lua_type&quot;: &quot;AnimationPlayer&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 88,
+                &quot;path&quot;: &quot;src/AnimationManager/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetPlayingTracks&quot;,
+            &quot;desc&quot;: &quot;Returns the current playing tracks on the character&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;self&quot;,
+                    &quot;desc&quot;: &quot;The AnimationManager object&quot;,
+                    &quot;lua_type&quot;: &quot;AnimationManager&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;An array of the current animation players&quot;,
+                    &quot;lua_type&quot;: &quot;PlayingTracks&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 123,
+                &quot;path&quot;: &quot;src/AnimationManager/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Update&quot;,
+            &quot;desc&quot;: &quot;Updates each animation player that is marked to be updated&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;self&quot;,
+                    &quot;desc&quot;: &quot;The AnimationPlayer object&quot;,
+                    &quot;lua_type&quot;: &quot;AnimationManager&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;dt&quot;,
+                    &quot;desc&quot;: &quot;Delta Time used to calculate time passed for animation updating&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 135,
+                &quot;path&quot;: &quot;src/AnimationManager/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Start&quot;,
+            &quot;desc&quot;: &quot;Starts the animation manager&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;self&quot;,
+                    &quot;desc&quot;: &quot;The AnimationPlayer object&quot;,
+                    &quot;lua_type&quot;: &quot;AnimationManager&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 155,
+                &quot;path&quot;: &quot;src/AnimationManager/init.luau&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Start&quot;,
+            &quot;desc&quot;: &quot;Stops the animation manager&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;self&quot;,
+                    &quot;desc&quot;: &quot;The AnimationManager object&quot;,
+                    &quot;lua_type&quot;: &quot;AnimationManager&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 174,
+                &quot;path&quot;: &quot;src/AnimationManager/init.luau&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [],
+    &quot;types&quot;: [
+        {
+            &quot;name&quot;: &quot;PlayData&quot;,
+            &quot;desc&quot;: &quot;A config to describe an Animation Track&quot;,
+            &quot;fields&quot;: [
+                {
+                    &quot;name&quot;: &quot;priority&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;weight&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;stop_fade_time&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;start_fade_time&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;alpha&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;looped&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;,
+                    &quot;desc&quot;: &quot;&quot;
+                }
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 23,
+                &quot;path&quot;: &quot;src/AnimationManager/init.luau&quot;
+            }
+        }
+    ],
+    &quot;name&quot;: &quot;AnimationManager&quot;,
+    &quot;desc&quot;: &quot;Produces a animation player &amp; handles animation updating automatically via :Start()/:Stop() methods&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 48,
+        &quot;path&quot;: &quot;src/AnimationManager/init.luau&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#PlayData" class="table-of-contents__link toc-highlight">PlayData</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#GetPlayingTracks" class="table-of-contents__link toc-highlight">:GetPlayingTracks</a></li><li><a href="#LoadAnimation" class="table-of-contents__link toc-highlight">:LoadAnimation</a></li><li><a href="#Start" class="table-of-contents__link toc-highlight">:Start</a></li><li><a href="#Start" class="table-of-contents__link toc-highlight">:Start</a></li><li><a href="#Update" class="table-of-contents__link toc-highlight">:Update</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 OpenFeline. Built with Moonwave and Docusaurus</div></div></div></footer></div>
+</body>
+</html>
