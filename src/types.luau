@@ -15,6 +15,7 @@ export type CustomNPC = {
 		animation: KeyframeSequence
 	) -> AnimationTrack,
 	MoveTo: (self: CustomNPC, pos: Vector3, priority: number | nil) -> (),
+	ForceMove: (self: CustomNPC, pos: Vector3, clearQueue: boolean | nil) -> (),
 	SetWalkSpeed: (self: CustomNPC, walkspeed: number) -> (),
 	MoveToFinished: Signal.Signal<>,
 	StateChanged: Signal.Signal<NPCStates>,
@@ -31,6 +32,9 @@ export type _CustomNPC = CustomNPC & {
 	_walkQueue: queue.PriorityQueue<Vector3>,
 	_StartWalking: (self: _CustomNPC) -> (),
 	_animationManager: AnimationManager.AnimationManager,
+	_jumpPower: number,
+	_raycastParams: RaycastParams,
+	_lastJump: number,
 }
 
 return {}

@@ -1,12 +1,21 @@
 name = "openfeline/opennpc"
-version = "0.1.0"
+version = "0.1.1"
 description = "A feline orientated custom NPC controller library."
 authors = ["OpenFeline Organization"]
 license = "MIT"
+repository = "https://github.com/OpenFeline/OpenNpc"
+
+includes = [
+    "pesde.toml",
+    "README.md",
+    "LICENSE",
+    "src/**/*.luau"
+]
 
 [target]
-environment = "roblox_server"
-
+environment = "roblox"
+lib = "src/init.luau"
+build_files = ["src"]
 [indices]
 default = "https://github.com/pesde-pkg/index"
 
