@@ -7,7 +7,7 @@ local r6 = require(ReplicatedStorage.rigs.r6)
 local NPC = ReplicatedStorage.NPC:Clone()
 NPC.Parent = workspace
 
-local NPCController = OpenNpc.new(NPC, r6, 16)
+local NPCController = OpenNpc.new(NPC, r6, 16, 32)
 
 local animations: { [string]: OpenNpc.AnimationPlayer } = {
 	walk = NPCController:LoadAnimation({
@@ -42,7 +42,7 @@ UserInputService.InputBegan:Connect(function(a0: InputObject, a1: boolean)
 		local cast = workspace:Raycast(ray.Origin, ray.Direction * 1000)
 
 		if cast then
-			NPCController:MoveTo(cast.Position)
+			NPCController:ForceMove(cast.Position)
 		end
 	end
 end)

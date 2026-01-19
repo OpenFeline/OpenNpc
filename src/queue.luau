@@ -14,6 +14,7 @@ export type PriorityQueue<ValueType> = {
 	Front: (self: PriorityQueue<ValueType>) -> "No elements in queue" | ValueType,
 	Rear: (self: PriorityQueue<ValueType>) -> "No elements in queue" | ValueType,
 	Size: (self: PriorityQueue<ValueType>) -> number,
+	Clear: (self: PriorityQueue<ValueType>) -> (),
 }
 
 type PriorityQueueClass = {
@@ -82,6 +83,10 @@ end
 
 function PriorityQueue.Size(self: PriorityQueue<unknown>): number
 	return #self._items
+end
+
+function PriorityQueue.Clear(self: PriorityQueue<unknown>)
+	self._items = {}
 end
 
 return PriorityQueueClass :: PriorityQueueClass

@@ -33,9 +33,10 @@ local NpcClass = { metatable = { __index = Npc } }
     @param npc Model -- NPC model
     @param rig crunchyroll.Rig -- Rig definition used for animation playback
     @param walkspeed number -- Movement speed in studs per second
+    @param jumpPower number -- Jump power in studs per second
     @return NpcClass
 ]=]
-function NpcClass.new(npc: Model, rig: crunchyroll.Rig, walkspeed: number)
+function NpcClass.new(npc: Model, rig: crunchyroll.Rig, walkspeed: number, jumpPower: number)
 	local self: types._CustomNPC = setmetatable({}, NpcClass.metatable) :: any
 
 	self._npc = npc
@@ -43,6 +44,13 @@ function NpcClass.new(npc: Model, rig: crunchyroll.Rig, walkspeed: number)
 	self._walkQueue = queue.new() :: queue.PriorityQueue<Vector3>
 	self._loadedAnimations = {} :: { [string]: AnimationTrack }
 	self._animationManager = AnimationManager.new(rig, npc)
+	self._jumpPower = jumpPower
+	self._raycastParams = RaycastParams.new()
+	self._raycastParams.FilterDescendantsInstances = { npc }
+	self._raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+	self._raycastParams.IgnoreWater = true
+
+	self._lastJump = 0
 
 	self.MoveToFinished = Signal.new()
 	self.StateChanged = Signal.new()
@@ -130,6 +138,29 @@ function Npc.MoveTo(self: types._CustomNPC, pos: Vector3, priority: number | nil
 	end
 end
 
+--[=[
+    Forces the NPC to move to a world position immediately.
+    If clearQueue is true, the current movement queue is cleared.
+    @within NpcClass
+    @param self NpcClass -- The NpcClass object
+    @param pos Vector3 -- Target world position
+    @param clearQueue boolean? -- Whether to clear the movement queue
+]=]
+function Npc.ForceMove(self: types._CustomNPC, pos: Vector3, clearQueue: boolean | nil)
+	assert(self._npc.PrimaryPart ~= nil, "NPC must have a primary part.")
+
+	self._walkGoal = pos
+	self:SetState("Walking")
+
+	if self._walkingConnection == nil then
+		self:_StartWalking()
+	end
+
+	if clearQueue then
+		self._walkQueue:Clear()
+	end
+end
+
 local function NpcToRadius(model: Model): number
 	local _, size = model:GetBoundingBox()
 	return math.max(size.X, size.Z) * 0.5
@@ -147,13 +178,19 @@ function Npc._StartWalking(self: types._CustomNPC)
 		local root = self._npc.PrimaryPart :: BasePart
 		local goal = self._walkGoal
 		if not goal then
+			-- Stop movement if no goal
+			root.AssemblyLinearVelocity = Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
 			return
 		end
 
 		local pos = root.Position
-		local distance = (goal - pos).Magnitude
+		local toGoal = goal - pos
+		local distance2D = Vector3.new(toGoal.X, 0, toGoal.Z).Magnitude
+		local radius = NpcToRadius(self._npc)
 
-		if Distance2D(pos, goal) <= NpcToRadius(self._npc) then
+		if distance2D <= radius then
+			root.AssemblyLinearVelocity = Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
+
 			if self._walkQueue:Size() == 0 and self._walkingConnection ~= nil then
 				self._walkingConnection:Disconnect()
 				self._walkingConnection = nil
@@ -167,30 +204,68 @@ function Npc._StartWalking(self: types._CustomNPC)
 			return
 		end
 
-		local moveAlpha = math.clamp((self._walkspeed * dt) / distance, 0, 1)
-		local newPos = pos:Lerp(goal, moveAlpha)
+		local dir2D = Vector3.new(toGoal.X, 0, toGoal.Z).Unit
 
-		local dir = (goal - newPos).Unit
-		local flatDir = Vector3.new(dir.X, 0, dir.Z)
-		flatDir = flatDir.Magnitude > 0 and flatDir.Unit or root.CFrame.LookVector
+		root.AssemblyLinearVelocity =
+			Vector3.new(dir2D.X * self._walkspeed, root.AssemblyLinearVelocity.Y, dir2D.Z * self._walkspeed)
 
 		local currentCF = root.CFrame
-		local targetRot = CFrame.lookAt(newPos, newPos + flatDir)
+		local targetRot = CFrame.lookAt(pos, pos + dir2D)
 
 		local turnSpeed = math.rad(360)
-		local angle = math.acos(math.clamp(currentCF.LookVector:Dot(flatDir), -1, 1))
+		local angle = math.acos(math.clamp(currentCF.LookVector:Dot(dir2D), -1, 1))
+
 		local rotAlpha = math.clamp((turnSpeed * dt) / math.max(angle, 1e-4), 0, 1)
 
-		root.CFrame = CFrame.new(newPos) * currentCF.Rotation:Lerp(targetRot.Rotation, rotAlpha)
+		root.CFrame = CFrame.new(pos) * currentCF.Rotation:Lerp(targetRot.Rotation, rotAlpha)
+	end
+
+	local function IsGrounded()
+		local root = self._npc.PrimaryPart :: BasePart
+		local cf, size = self._npc:GetBoundingBox()
+
+		local origin = root.Position + Vector3.new(0, size.Y * 0.5, 0)
+		local direction = Vector3.new(0, -(size.Y + 0.5), 0)
+
+		local result = workspace:Raycast(origin, direction * 1.2, self._raycastParams)
+
+		if not result then
+			return false
+		end
+
+		return result.Normal.Y > 0.6
+	end
+
+	local function Jump()
+		if not self._walkGoal then
+			return
+		end
+
+		local root = self._npc.PrimaryPart :: BasePart
+		local origin = root.Position
+		local direction = root.CFrame.LookVector * 2
+		local raycast = workspace:Raycast(origin, direction, self._raycastParams)
+		local now = os.clock()
+
+		local grounded = IsGrounded()
+
+		if raycast and grounded and now - self._lastJump >= 0.25 then
+			self._lastJump = now
+
+			local vel = root.AssemblyLinearVelocity
+			root.AssemblyLinearVelocity = Vector3.new(vel.X, vel.Y + self._jumpPower, vel.Z)
+		end
 	end
 
 	if RunService:IsServer() then
 		self._walkingConnection = RunService.Heartbeat:Connect(function(dt)
 			Step(dt)
+			Jump()
 		end)
 	else
 		self._walkingConnection = RunService.RenderStepped:Connect(function(dt)
 			Step(dt)
+			Jump()
 		end)
 	end
 end
