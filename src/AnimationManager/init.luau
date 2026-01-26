@@ -10,7 +10,7 @@ export type AnimationPlayer = types.AnimationPlayer
 --[=[
 	@interface PlayData
 	@within AnimationManager
-	
+
 	@field priority number
 	@field weight number
 	@field stop_fade_time number
@@ -37,7 +37,7 @@ type _AnimationPlayer = types.AnimationPlayer & {
 	_rig: Crunchyroll.Rig,
 	_asset: Crunchyroll.AnimationAsset,
 	_markForUpdate: (playing: boolean) -> (),
-	_motors: { [string]: Motor6D },
+	_joints: { [string]: Motor6D | Bone },
 }
 
 --[=[
@@ -101,11 +101,11 @@ function AnimationManager.LoadAnimation(
 		self._players[key] = if playing then player else nil :: any
 		self._playingTracks[player._asset] = if playing then player._track else nil :: any
 	end
-	player._motors = {}
+	player._joints = {}
 
 	for _, descendant in self._character:GetDescendants() do
 		if descendant:IsA("Motor6D") then
-			player._motors[descendant.Name] = descendant
+			player._joints[descendant.Name] = descendant
 		end
 	end
 
@@ -238,11 +238,57 @@ function AnimationPlayer.UpdateCFrames(self: _AnimationPlayer, rootCF: CFrame)
 			continue
 		end
 
-		local corresponding: Motor6D = self._motors[name] -- change this to find motor6d in character ASAP
-		local newCF = rootCF:ToObjectSpace(cf):Inverse() * corresponding.C0
+		local corresponding: Motor6D | Bone = self._joints[name] -- change this to find motor6d in character ASAP
 
-		corresponding.C1 = newCF
+		if typeof(corresponding) == "Motor6D" then
+			local newCF = rootCF:ToObjectSpace(cf):Inverse() * corresponding.C0
+
+			corresponding.C1 = newCF
+		elseif typeof(corresponding) == "Bone" then
+			corresponding.Transform = cf
+		end
 	end
+end
+
+--[=[
+	Generates a rig for the given character
+
+	@method GenerateRig
+	@within AnimationManager
+	@param character Model -- The character to generate the rig for
+	@return Crunchyroll.Rig -- The generated rig
+]=]
+function AnimationManager.GenerateRig(
+	character: Model
+): Crunchyroll.Rig -- https://discord.com/channels/385151591524597761/1374378361232822362/1462599145536622886
+	local children = {}
+
+	for _, child in character:QueryDescendants("Bone") do
+		table.insert(children, {
+			name = child.Name,
+			c0 = CFrame.identity,
+			c1 = CFrame.identity,
+		})
+	end
+
+	for _, child in character:QueryDescendants("Motor6D") do
+		table.insert(children, {
+			name = child.Name,
+			c0 = (child :: Motor6D).C0,
+			c1 = (child :: Motor6D).C1,
+		})
+	end
+
+	local rig = Crunchyroll.create_rig({
+		name = "Torso",
+		c0 = CFrame.identity,
+		c1 = CFrame.identity,
+		children = children,
+	})
+
+	print(rig)
+
+	return rig
 end
 
 return AnimationManager

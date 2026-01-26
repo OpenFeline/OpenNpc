@@ -1,6 +1,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
+--local AnimationManager = require(ReplicatedStorage.OpenNpc.AnimationManager)
 local OpenNpc = require(ReplicatedStorage.OpenNpc)
 local r6 = require(ReplicatedStorage.rigs.r6)
 
