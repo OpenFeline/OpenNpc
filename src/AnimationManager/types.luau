@@ -18,6 +18,7 @@ export type AnimationManager = {
 	GetPlayingTracks: (self: AnimationManager) -> { [string]: AnimationPlayer },
 	Start: (self: AnimationManager) -> (),
 	Stop: (self: AnimationManager) -> (),
+	GenerateRig: (character: Model) -> crunchyroll.Rig,
 }
 
 export type PlayData = crunchyroll.AnimationTrack & {
