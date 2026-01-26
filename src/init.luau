@@ -5,12 +5,11 @@
     @class NpcClass
 ]=]
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local AnimationManager = require(script.AnimationManager)
-local Signal = require(ReplicatedStorage.Packages.signal)
-local crunchyroll = require(ReplicatedStorage.Packages.crunchyroll)
+local Signal = require(script.Packages.signal)
+local crunchyroll = require(script.Packages.crunchyroll)
 local queue = require(script.queue)
 
 local types = require(script.types)
@@ -166,11 +165,6 @@ local function NpcToRadius(model: Model): number
 	return math.max(size.X, size.Z) * 0.5
 end
 
-local function Distance2D(pos1: Vector3, pos2: Vector3): number
-	local delta = Vector3.new(pos1.X - pos2.X, 0, pos1.Z - pos2.Z)
-	return delta.Magnitude
-end
-
 function Npc._StartWalking(self: types._CustomNPC)
 	self:SetState("Walking")
 
@@ -222,7 +216,7 @@ function Npc._StartWalking(self: types._CustomNPC)
 
 	local function IsGrounded()
 		local root = self._npc.PrimaryPart :: BasePart
-		local cf, size = self._npc:GetBoundingBox()
+		local _, size = self._npc:GetBoundingBox()
 
 		local origin = root.Position + Vector3.new(0, size.Y * 0.5, 0)
 		local direction = Vector3.new(0, -(size.Y + 0.5), 0)
